@@ -24,7 +24,7 @@ jobs:
       run: python generate_cv.py  # <-- Убедитесь, что имя файла совпадает с вашим!
 
     - name: Upload Resume Artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: Savelyev_Resume
         path: Savelyev_Resume.docx
