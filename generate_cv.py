@@ -1,4 +1,35 @@
-# generate_cv.py
+import os
+from openai import OpenAI
+
+# Инициализация клиента DeepSeek
+client = OpenAI(
+    api_key=os.environ.get("DEEPSEEK_API_KEY"),
+    base_url="https://api.deepseek.com",  # Важно: адрес DeepSeek
+)
+
+def ask_llm(prompt, system_prompt="Ты — экспертный HRD в IT и промышленности."):
+    try:
+        response = client.chat.completions.create(
+            model="deepseek-flash",  # Актуальная модель
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": prompt}
+            ],
+            temperature=0.3,
+            stream=False
+        )
+        return response.choices[0].message.content
+    except Exception as e:
+        print(f"Ошибка при обращении к DeepSeek: {e}")
+        return None
+
+# --- Пример использования (можно вставить в ваш пайплайн) ---
+if __name__ == "__main__":
+    test_prompt = "Оцени это резюме: 'Савельев Алексей, 17 лет опыта, PMP...'"
+    result = ask_llm(test_prompt)
+    if result:
+        print("--- Ответ от DeepSeek ---")
+        print(result)# generate_cv.py
 from docx import Document
 from docx.shared import Pt, RGBColor, Inches
 from docx.enum.text import WD_ALIGN_PARAGRAPH
