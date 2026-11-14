@@ -1,3 +1,5 @@
-streamlit
+text
+fastapi
+uvicorn
 openai
 python-docx
