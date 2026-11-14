@@ -1,0 +1,30 @@
+name: Build Resume
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch: 
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Install dependencies
+      run: pip install python-docx
+
+    - name: Generate Word Document
+      run: python generate_cv.py  # <-- Убедитесь, что имя файла совпадает с вашим!
+
+    - name: Upload Resume Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: Savelyev_Resume
+        path: Savelyev_Resume.docx
