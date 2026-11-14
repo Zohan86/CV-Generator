@@ -1,9 +1,7 @@
-name: Build Resume
+name: AI Resume Pipeline
 
 on:
-  push:
-    branches: [ "main" ]
-  workflow_dispatch: 
+  workflow_dispatch:
 
 jobs:
   build:
@@ -18,13 +16,9 @@ jobs:
         python-version: '3.9'
 
     - name: Install dependencies
-      run: pip install python-docx
+      run: pip install python-docx openai
 
-    - name: Generate Word Document
-      run: python generate_cv.py  # <-- Убедитесь, что имя файла совпадает с вашим!
-
-    - name: Upload Resume Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: Savelyev_Resume
-        path: Savelyev_Resume.docx
+    - name: Run AI Pipeline
+      env:
+        DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}  # Передаем ключ
+      run: python generate_cv.py  # Или имя вашего файла с пайплайном
